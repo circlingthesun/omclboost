@@ -35,7 +35,7 @@
     #include <sys/time.h>
     #include <ext/hash_map>
     #include <ext/hash_set>
-    namespace std {
+    namespace stdext {
         using namespace __gnu_cxx;
     }
 #endif

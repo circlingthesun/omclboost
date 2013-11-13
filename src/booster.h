@@ -19,15 +19,15 @@
 class Booster : public Classifier {
  public:
     Booster(const Hyperparameters& hp, const int& numClasses, const int& numFeatures,
-            const VectorXd& minFeatRange, const VectorXd& maxFeatRange);
+            const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange);
     ~Booster();
     
     virtual void eval(Sample& sample, Result& result);
 
  protected:
-    vector<Classifier*> m_bases;
-    VectorXd m_w;
-    vector<Cache> m_cache;
+    std::vector<Classifier*> m_bases;
+    Eigen::VectorXd m_w;
+    std::vector<Cache> m_cache;
 };
 
 #endif // BOOSTER_H

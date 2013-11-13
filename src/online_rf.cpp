@@ -13,9 +13,9 @@
 
 #include "online_rf.h"
 
-RandomTest::RandomTest(const int& numClasses, const int& numFeatures, const VectorXd &minFeatRange, const VectorXd &maxFeatRange) :
+RandomTest::RandomTest(const int& numClasses, const int& numFeatures, const Eigen::VectorXd &minFeatRange, const Eigen::VectorXd &maxFeatRange) :
     m_numClasses(&numClasses), m_trueCount(0.0), m_falseCount(0.0),
-    m_trueStats(VectorXd::Zero(numClasses)), m_falseStats(VectorXd::Zero(numClasses)) {
+    m_trueStats(Eigen::VectorXd::Zero(numClasses)), m_falseStats(Eigen::VectorXd::Zero(numClasses)) {
     m_feature = randDouble(0, numFeatures + 1);
     m_threshold = randDouble(minFeatRange(m_feature), maxFeatRange(m_feature));
 }
@@ -47,8 +47,8 @@ double RandomTest::score() const {
     return (m_trueCount * trueScore + m_falseCount * falseScore) / (m_trueCount + m_falseCount + 1e-16);
 }
     
-pair<VectorXd, VectorXd > RandomTest::getStats() const {
-    return pair<VectorXd, VectorXd> (m_trueStats, m_falseStats);
+pair<Eigen::VectorXd, Eigen::VectorXd > RandomTest::getStats() const {
+    return pair<Eigen::VectorXd, Eigen::VectorXd> (m_trueStats, m_falseStats);
 }
 
 void RandomTest::updateStats(const Sample& sample, const bool& decision) {
@@ -61,10 +61,10 @@ void RandomTest::updateStats(const Sample& sample, const bool& decision) {
     }
 }    
 
-OnlineNode::OnlineNode(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const VectorXd& minFeatRange, const VectorXd& maxFeatRange, 
+OnlineNode::OnlineNode(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange,
                        const int& depth) :
     m_numClasses(&numClasses), m_depth(depth), m_isLeaf(true), m_hp(&hp), m_label(-1),
-    m_counter(0.0), m_parentCounter(0.0), m_labelStats(VectorXd::Zero(numClasses)),
+    m_counter(0.0), m_parentCounter(0.0), m_labelStats(Eigen::VectorXd::Zero(numClasses)),
     m_minFeatRange(&minFeatRange), m_maxFeatRange(&maxFeatRange) {
     // Creating random tests
     for (int nTest = 0; nTest < hp.numRandomTests; nTest++) {
@@ -72,8 +72,8 @@ OnlineNode::OnlineNode(const Hyperparameters& hp, const int& numClasses, const i
     }
 }
     
-OnlineNode::OnlineNode(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const VectorXd& minFeatRange, const VectorXd& maxFeatRange, 
-                       const int& depth, const VectorXd& parentStats) :
+OnlineNode::OnlineNode(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange,
+                       const int& depth, const Eigen::VectorXd& parentStats) :
     m_numClasses(&numClasses), m_depth(depth), m_isLeaf(true), m_hp(&hp), m_label(-1),
     m_counter(0.0), m_parentCounter(parentStats.sum()), m_labelStats(parentStats),
     m_minFeatRange(&minFeatRange), m_maxFeatRange(&maxFeatRange) {
@@ -131,7 +131,7 @@ void OnlineNode::update(const Sample& sample) {
             }
 
             // Split
-            pair<VectorXd, VectorXd> parentStats = m_bestTest->getStats();
+            pair<Eigen::VectorXd, Eigen::VectorXd> parentStats = m_bestTest->getStats();
             m_rightChildNode = new OnlineNode(*m_hp, *m_numClasses, m_minFeatRange->rows(), *m_minFeatRange, *m_maxFeatRange, m_depth + 1,
                                               parentStats.first);
             m_leftChildNode = new OnlineNode(*m_hp, *m_numClasses, m_minFeatRange->rows(), *m_minFeatRange, *m_maxFeatRange, m_depth + 1,
@@ -152,7 +152,7 @@ void OnlineNode::eval(const Sample& sample, Result& result) {
             result.confidence = m_labelStats / (m_counter + m_parentCounter);
             result.prediction = m_label;
         } else {
-            result.confidence = VectorXd::Constant(m_labelStats.rows(), 1.0 / *m_numClasses);
+            result.confidence = Eigen::VectorXd::Constant(m_labelStats.rows(), 1.0 / *m_numClasses);
             result.prediction = 0;
         }
     } else {
@@ -181,7 +181,7 @@ bool OnlineNode::shouldISplit() const {
 }
 
 OnlineTree::OnlineTree(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, 
-                       const VectorXd& minFeatRange, const VectorXd& maxFeatRange) :
+                       const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange) :
     Classifier(hp, numClasses) {
     m_rootNode = new OnlineNode(hp, numClasses, numFeatures, minFeatRange, maxFeatRange, 0);
     m_name = "OnlineTree";
@@ -199,7 +199,7 @@ void OnlineTree::eval(Sample& sample, Result& result) {
     m_rootNode->eval(sample, result);
 }
 
-OnlineRF::OnlineRF(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const VectorXd& minFeatRange, const VectorXd& maxFeatRange) :
+OnlineRF::OnlineRF(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange) :
     Classifier(hp, numClasses), m_counter(0.0), m_oobe(0.0) {
     OnlineTree *tree;
     for (int nTree = 0; nTree < hp.numTrees; nTree++) {

@@ -21,7 +21,7 @@
 
 class RandomTest {
  public:
-    RandomTest(const int& numClasses, const int& numFeatures, const VectorXd &minFeatRange, const VectorXd &maxFeatRange);
+    RandomTest(const int& numClasses, const int& numFeatures, const Eigen::VectorXd &minFeatRange, const Eigen::VectorXd &maxFeatRange);
 
     void update(const Sample& sample);
     
@@ -29,7 +29,7 @@ class RandomTest {
     
     double score() const;
     
-    pair<VectorXd, VectorXd > getStats() const;
+    pair<Eigen::VectorXd, Eigen::VectorXd > getStats() const;
     
  protected:
     const int* m_numClasses;
@@ -38,18 +38,18 @@ class RandomTest {
     
     double m_trueCount;
     double m_falseCount;
-    VectorXd m_trueStats;
-    VectorXd m_falseStats;
+    Eigen::VectorXd m_trueStats;
+    Eigen::VectorXd m_falseStats;
 
     void updateStats(const Sample& sample, const bool& decision);
 };
 
 class OnlineNode {
  public:
-    OnlineNode(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const VectorXd& minFeatRange, const VectorXd& maxFeatRange, 
+    OnlineNode(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange,
             const int& depth);
-    OnlineNode(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const VectorXd& minFeatRange, const VectorXd& maxFeatRange, 
-            const int& depth, const VectorXd& parentStats);
+    OnlineNode(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange,
+            const int& depth, const Eigen::VectorXd& parentStats);
     
     ~OnlineNode();
     
@@ -64,9 +64,9 @@ class OnlineNode {
     int m_label;
     double m_counter;
     double m_parentCounter;
-    VectorXd m_labelStats;
-    const VectorXd* m_minFeatRange;
-    const VectorXd* m_maxFeatRange;
+    Eigen::VectorXd m_labelStats;
+    const Eigen::VectorXd* m_minFeatRange;
+    const Eigen::VectorXd* m_maxFeatRange;
     
     OnlineNode* m_leftChildNode;
     OnlineNode* m_rightChildNode;
@@ -80,7 +80,7 @@ class OnlineNode {
 
 class OnlineTree: public Classifier {
  public:
-    OnlineTree(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const VectorXd& minFeatRange, const VectorXd& maxFeatRange);
+    OnlineTree(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange);
 
     ~OnlineTree();
     
@@ -95,7 +95,7 @@ class OnlineTree: public Classifier {
 
 class OnlineRF: public Classifier {
  public:
-    OnlineRF(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const VectorXd& minFeatRange, const VectorXd& maxFeatRange);
+    OnlineRF(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange);
 
     ~OnlineRF();
     

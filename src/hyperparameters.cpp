@@ -71,3 +71,7 @@ Hyperparameters::Hyperparameters(const string& confFile) {
 
     cout << "Done." << endl;
 }
+
+Hyperparameters::Hyperparameters() {
+
+}

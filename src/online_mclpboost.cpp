@@ -14,7 +14,7 @@
 #include "online_mclpboost.h"
 
 OnlineMCLPBoost::OnlineMCLPBoost(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, 
-                                 const VectorXd& minFeatRange, const VectorXd& maxFeatRange) :
+                                 const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange) :
     Booster(hp, numClasses, numFeatures, minFeatRange, maxFeatRange), m_nuD(hp.nuD), m_nuP(hp.nuP) {
     m_name = "OnlineMCLPBoost";
 }
@@ -42,12 +42,12 @@ void OnlineMCLPBoost::update(Sample& sample) {
     m_nuD *= m_hp->annealingRate;
 
     // Primal/Dual gradient descent/ascent
-    VectorXd q = VectorXd::Ones(m_hp->numBases, 1.0);
-    vector<vector<double> > dG(m_hp->numBases);
+    Eigen::VectorXd q = Eigen::VectorXd::Ones(m_hp->numBases, 1.0);
+    std::vector<std::vector<double> > dG(m_hp->numBases);
     double e, z, nuThetaInv = m_nuD / m_hp->theta;
     for (int nBase = 0; nBase < m_hp->numBases; nBase++) {
         // Dual
-        VectorXd sampleW(m_cache.size());
+        Eigen::VectorXd sampleW(m_cache.size());
         for (int nCache = 0; nCache < (int) m_cache.size(); nCache++) {
             Result baseResult(*m_numClasses);
             m_bases[nBase]->update(m_cache[nCache].cacheSample);

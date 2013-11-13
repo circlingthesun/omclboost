@@ -24,7 +24,7 @@
 
 class OnlineMCBoost: public Booster {
  public:
-    OnlineMCBoost(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const VectorXd& minFeatRange, const VectorXd& maxFeatRange);
+    OnlineMCBoost(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange);
 
     virtual void update(Sample& sample);
 

@@ -22,7 +22,7 @@
 
 class OnlineMCLPBoost : public Booster {
  public:
-    OnlineMCLPBoost(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const VectorXd& minFeatRange, const VectorXd& maxFeatRange);
+    OnlineMCLPBoost(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange);
 
     virtual void update(Sample& sample);
 

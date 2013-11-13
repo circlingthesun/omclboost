@@ -24,13 +24,10 @@
 #include <Eigen/Core>
 #include <Eigen/Array>
 
-using namespace std;
-using namespace Eigen;
-
 // DATA CLASSES
 class Sample {
 public:
-    VectorXd x;
+    Eigen::VectorXd x;
     int y;
     double w;
     int id;
@@ -40,15 +37,15 @@ class DataSet {
  public:
     void findFeatRange();
 
-    void load(const string& x_filename, const string& y_filename);
+    void load(const std::string& x_filename, const std::string& y_filename);
 
-    vector<Sample> m_samples;
+    std::vector<Sample> m_samples;
     int m_numSamples;
     int m_numFeatures;
     int m_numClasses;
 
-    VectorXd m_minFeatRange;
-    VectorXd m_maxFeatRange;
+    Eigen::VectorXd m_minFeatRange;
+    Eigen::VectorXd m_maxFeatRange;
 };
 
 class Result {
@@ -56,7 +53,7 @@ class Result {
     Result();
     Result(const int& numClasses);
 
-    VectorXd confidence;
+    Eigen::VectorXd confidence;
     int prediction;
 };
 

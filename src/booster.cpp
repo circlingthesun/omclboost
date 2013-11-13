@@ -16,8 +16,8 @@
 #include "linear_larank.h"
 
 Booster::Booster(const Hyperparameters& hp, const int& numClasses, const int& numFeatures,
-                 const VectorXd& minFeatRange, const VectorXd& maxFeatRange) :
-    Classifier(hp, numClasses), m_w(VectorXd::Constant(hp.numBases, hp.shrinkage)) {
+                 const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange) :
+    Classifier(hp, numClasses), m_w(Eigen::VectorXd::Constant(hp.numBases, hp.shrinkage)) {
     switch (hp.weakLearner) {
     case WEAK_ORF: {
         OnlineRF *weakLearner;

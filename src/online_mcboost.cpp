@@ -14,7 +14,7 @@
 #include "online_mcboost.h"
 
 OnlineMCBoost::OnlineMCBoost(const Hyperparameters& hp, const int& numClasses, const int& numFeatures, 
-                             const VectorXd& minFeatRange, const VectorXd& maxFeatRange) :
+                             const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange) :
     Booster(hp, numClasses, numFeatures, minFeatRange, maxFeatRange) {
     m_name = "OnlineMCBoost";
 }

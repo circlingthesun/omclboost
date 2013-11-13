@@ -10,11 +10,10 @@ include_directories("linear_larank")
 include_directories("${EIGEN_INCLUDE_DIRS}")
 include_directories("${CONFIG_INCLUDE_DIR}")
 
-message("EIGENNNNNNNNNNN: ${EIGEN_INCLUDE_DIRS} \n ${EIGEN_DEFINITIONS}")
-
 SET(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} ${EIGEN_DEFINITIONS}")
 
 add_library(omclboost STATIC ${SOURCES} ${LARANK_SOURCES})
+#add_executable(omclboost ${SOURCES} ${LARANK_SOURCES})
 
 target_link_libraries(
     omclboost

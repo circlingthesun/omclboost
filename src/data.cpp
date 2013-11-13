@@ -14,8 +14,8 @@
 #include "data.h"
 
 void DataSet::findFeatRange() {
-    m_minFeatRange = VectorXd(m_numFeatures);
-    m_maxFeatRange = VectorXd(m_numFeatures);
+    m_minFeatRange = Eigen::VectorXd(m_numFeatures);
+    m_maxFeatRange = Eigen::VectorXd(m_numFeatures);
 
     double minVal, maxVal;
     for (int nFeat = 0; nFeat < m_numFeatures; nFeat++) {
@@ -35,18 +35,18 @@ void DataSet::findFeatRange() {
     }
 }
 
-void DataSet::load(const string& x_filename, const string& y_filename) {
-    ifstream xfp(x_filename.c_str(), ios::binary);
+void DataSet::load(const std::string& x_filename, const std::string& y_filename) {
+    std::ifstream xfp(x_filename.c_str(), std::ios::binary);
     if (!xfp) {
-        cout << "Could not open input file " << x_filename << endl;
+        std::cout << "Could not open input file " << x_filename << std::endl;
         exit(EXIT_FAILURE);
     }
-    ifstream yfp(y_filename.c_str(), ios::binary);
+    std::ifstream yfp(y_filename.c_str(), std::ios::binary);
     if (!yfp) {
-        cout << "Could not open input file " << y_filename << endl;
+        std::cout << "Could not open input file " << y_filename << std::endl;
         exit(EXIT_FAILURE);
     }
-    cout << "Loading data file: " << x_filename << " ... " << endl;
+    std::cout << "Loading data file: " << x_filename << " ... " << std::endl;
 
     // Reading the header
     int tmp;
@@ -54,16 +54,16 @@ void DataSet::load(const string& x_filename, const string& y_filename) {
     xfp >> m_numFeatures;
     yfp >> tmp;
     if (tmp != m_numSamples) {
-        cout << "Number of samples in data and labels file is different" << endl;
+        std::cout << "Number of samples in data and labels file is different" << std::endl;
         exit(EXIT_FAILURE);
     }
     yfp >> tmp;
 
     m_samples.clear();
-    set<int> labels;
+    std::set<int> labels;
     for (int nSamp = 0; nSamp < m_numSamples; nSamp++) {
         Sample sample;
-        sample.x = VectorXd(m_numFeatures);
+        sample.x = Eigen::VectorXd(m_numFeatures);
         sample.id = nSamp;
         sample.w = 1.0;
         yfp >> sample.y;
@@ -80,14 +80,14 @@ void DataSet::load(const string& x_filename, const string& y_filename) {
     // Find the data range
     findFeatRange();
 
-    cout << "Loaded " << m_numSamples << " samples with " << m_numFeatures;
-    cout << " features and " << m_numClasses << " classes." << endl;
+    std::cout << "Loaded " << m_numSamples << " samples with " << m_numFeatures;
+    std::cout << " features and " << m_numClasses << " classes." << std::endl;
 }
 
 Result::Result() {
 }
 
-Result::Result(const int& numClasses) : confidence(VectorXd::Zero(numClasses)) {
+Result::Result(const int& numClasses) : confidence(Eigen::VectorXd::Zero(numClasses)) {
 }
 
 Cache::Cache() : margin(-1.0), yPrime(-1) {

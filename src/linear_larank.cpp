@@ -14,7 +14,7 @@
 #include "linear_larank.h"
 
 LinearLaRank::LinearLaRank(const Hyperparameters& hp, const int& numClasses, const int& numFeatures,
-                           const VectorXd& minFeatRange, const VectorXd& maxFeatRange) :
+                           const Eigen::VectorXd& minFeatRange, const Eigen::VectorXd& maxFeatRange) :
     Classifier(hp, numClasses), m_sampleCount(0), m_numFeatures(&numFeatures) {
     m_svm = new LaRank();
     m_svm->tau = 0.0001;
