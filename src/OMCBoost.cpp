@@ -15,7 +15,7 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-#include <libconfig.h++>
+//#include <libconfig.h++>
 
 #include "data.h"
 #include "experimenter.h"
@@ -25,7 +25,7 @@
 #include "online_mclpboost.h"
 
 using namespace std;
-using namespace libconfig;
+//using namespace libconfig;
 
 typedef enum {
     ORT, ORF, OMCBOOST, OMCLPBOOST, LARANK
@@ -53,115 +53,116 @@ void help() {
     cout << "\t ./OMCBoost -c conf/orf.conf --orf --train --test" << endl;
 }
 
-int main(int argc, char *argv[]) {
-    // Parsing command line
-    string confFileName;
-    int classifier = -1, doTraining = false, doTesting = false, doT2 = false, inputCounter = 1;
 
-    if (argc == 1) {
-        cout << "\tNo input argument specified: aborting." << endl;
-        help();
-        exit(EXIT_SUCCESS);
-    }
+//int main(int argc, char *argv[]) {
+//    // Parsing command line
+//    string confFileName;
+//    int classifier = -1, doTraining = false, doTesting = false, doT2 = false, inputCounter = 1;
 
-    while (inputCounter < argc) {
-        if (!strcmp(argv[inputCounter], "-h") || !strcmp(argv[inputCounter], "--help")) {
-            help();
-            return EXIT_SUCCESS;
-        } else if (!strcmp(argv[inputCounter], "-c")) {
-            confFileName = argv[++inputCounter];
-        } else if (!strcmp(argv[inputCounter], "--ort")) {
-            classifier = ORT;
-        } else if (!strcmp(argv[inputCounter], "--orf")) {
-            classifier = ORF;
-        } else if (!strcmp(argv[inputCounter], "--omcb")) {
-            classifier = OMCBOOST;
-        } else if (!strcmp(argv[inputCounter], "--omclp")) {
-            classifier = OMCLPBOOST;
-        } else if (!strcmp(argv[inputCounter], "--larank")) {
-            classifier = LARANK;
-        } else if (!strcmp(argv[inputCounter], "--train")) {
-            doTraining = true;
-        } else if (!strcmp(argv[inputCounter], "--test")) {
-            doTesting = true;
-        } else if (!strcmp(argv[inputCounter], "--t2")) {
-            doT2 = true;
-        } else {
-            cout << "\tUnknown input argument: " << argv[inputCounter];
-            cout << ", please try --help for more information." << endl;
-            exit(EXIT_FAILURE);
-        }
+//    if (argc == 1) {
+//        cout << "\tNo input argument specified: aborting." << endl;
+//        help();
+//        exit(EXIT_SUCCESS);
+//    }
 
-        inputCounter++;
-    }
+//    while (inputCounter < argc) {
+//        if (!strcmp(argv[inputCounter], "-h") || !strcmp(argv[inputCounter], "--help")) {
+//            help();
+//            return EXIT_SUCCESS;
+//        } else if (!strcmp(argv[inputCounter], "-c")) {
+//            confFileName = argv[++inputCounter];
+//        } else if (!strcmp(argv[inputCounter], "--ort")) {
+//            classifier = ORT;
+//        } else if (!strcmp(argv[inputCounter], "--orf")) {
+//            classifier = ORF;
+//        } else if (!strcmp(argv[inputCounter], "--omcb")) {
+//            classifier = OMCBOOST;
+//        } else if (!strcmp(argv[inputCounter], "--omclp")) {
+//            classifier = OMCLPBOOST;
+//        } else if (!strcmp(argv[inputCounter], "--larank")) {
+//            classifier = LARANK;
+//        } else if (!strcmp(argv[inputCounter], "--train")) {
+//            doTraining = true;
+//        } else if (!strcmp(argv[inputCounter], "--test")) {
+//            doTesting = true;
+//        } else if (!strcmp(argv[inputCounter], "--t2")) {
+//            doT2 = true;
+//        } else {
+//            cout << "\tUnknown input argument: " << argv[inputCounter];
+//            cout << ", please try --help for more information." << endl;
+//            exit(EXIT_FAILURE);
+//        }
 
-    cout << "OnlineMCBoost Classification Package:" << endl;
+//        inputCounter++;
+//    }
 
-    if (!doTraining && !doTesting && !doT2) {
-        cout << "\tNothing to do, no training, no testing !!!" << endl;
-        exit(EXIT_FAILURE);
-    }
+//    cout << "OnlineMCBoost Classification Package:" << endl;
 
-    if (doT2) {
-        doTraining = false;
-        doTesting = false;
-    }
+//    if (!doTraining && !doTesting && !doT2) {
+//        cout << "\tNothing to do, no training, no testing !!!" << endl;
+//        exit(EXIT_FAILURE);
+//    }
 
-    // Load the hyperparameters
-    Hyperparameters hp(confFileName);
+//    if (doT2) {
+//        doTraining = false;
+//        doTesting = false;
+//    }
 
-    // Creating the train data
-    DataSet dataset_tr, dataset_ts;
-    dataset_tr.load(hp.trainData, hp.trainLabels);
-    if (doT2 || doTesting) {
-        dataset_ts.load(hp.testData, hp.testLabels);
-    }
+//    // Load the hyperparameters
+//    Hyperparameters hp(confFileName);
 
-    // Calling training/testing
-    Classifier* model = NULL;
+//    // Creating the train data
+//    DataSet dataset_tr, dataset_ts;
+//    dataset_tr.load(hp.trainData, hp.trainLabels);
+//    if (doT2 || doTesting) {
+//        dataset_ts.load(hp.testData, hp.testLabels);
+//    }
 
-    switch (classifier) {
-    case ORT: {
-        model = new OnlineTree(hp, dataset_tr.m_numClasses, dataset_tr.m_numFeatures,
-                               dataset_tr.m_minFeatRange, dataset_tr.m_maxFeatRange);
-        break;
-    }
-    case ORF: {
-        model = new OnlineRF(hp, dataset_tr.m_numClasses, dataset_tr.m_numFeatures,
-                             dataset_tr.m_minFeatRange, dataset_tr.m_maxFeatRange);
-        break;
-    }
-    case OMCBOOST: {
-        model = new OnlineMCBoost(hp, dataset_tr.m_numClasses, dataset_tr.m_numFeatures,
-                                  dataset_tr.m_minFeatRange, dataset_tr.m_maxFeatRange);
-        break;
-    }
-    case OMCLPBOOST: {
-        model = new OnlineMCLPBoost(hp, dataset_tr.m_numClasses, dataset_tr.m_numFeatures,
-                                    dataset_tr.m_minFeatRange, dataset_tr.m_maxFeatRange);
-        break;
-    }
-    case LARANK: {
-        model = new LinearLaRank(hp, dataset_tr.m_numClasses, dataset_tr.m_numFeatures,
-                                 dataset_tr.m_minFeatRange, dataset_tr.m_maxFeatRange);
-        break;
-    }
-    }
+//    // Calling training/testing
+//    Classifier* model = NULL;
 
-    if (model) {
-        if (doT2) {
-            trainAndTest(model, dataset_tr, dataset_ts, hp);
-        }
-        if (doTraining) {
-            train(model, dataset_tr, hp);
-        }
-        if (doTesting) {
-            test(model, dataset_ts, hp);
-        }
-    }
+//    switch (classifier) {
+//    case ORT: {
+//        model = new OnlineTree(hp, dataset_tr.m_numClasses, dataset_tr.m_numFeatures,
+//                               dataset_tr.m_minFeatRange, dataset_tr.m_maxFeatRange);
+//        break;
+//    }
+//    case ORF: {
+//        model = new OnlineRF(hp, dataset_tr.m_numClasses, dataset_tr.m_numFeatures,
+//                             dataset_tr.m_minFeatRange, dataset_tr.m_maxFeatRange);
+//        break;
+//    }
+//    case OMCBOOST: {
+//        model = new OnlineMCBoost(hp, dataset_tr.m_numClasses, dataset_tr.m_numFeatures,
+//                                  dataset_tr.m_minFeatRange, dataset_tr.m_maxFeatRange);
+//        break;
+//    }
+//    case OMCLPBOOST: {
+//        model = new OnlineMCLPBoost(hp, dataset_tr.m_numClasses, dataset_tr.m_numFeatures,
+//                                    dataset_tr.m_minFeatRange, dataset_tr.m_maxFeatRange);
+//        break;
+//    }
+//    case LARANK: {
+//        model = new LinearLaRank(hp, dataset_tr.m_numClasses, dataset_tr.m_numFeatures,
+//                                 dataset_tr.m_minFeatRange, dataset_tr.m_maxFeatRange);
+//        break;
+//    }
+//    }
 
-    // Preparing for exit
-    delete model;
+//    if (model) {
+//        if (doT2) {
+//            trainAndTest(model, dataset_tr, dataset_ts, hp);
+//        }
+//        if (doTraining) {
+//            train(model, dataset_tr, hp);
+//        }
+//        if (doTesting) {
+//            test(model, dataset_ts, hp);
+//        }
+//    }
 
-    return EXIT_SUCCESS;
-}
+//    // Preparing for exit
+//    delete model;
+
+//    return EXIT_SUCCESS;
+//}

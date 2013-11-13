@@ -12,65 +12,66 @@
  */
 
 #include <iostream>
-#include <libconfig.h++>
+//#include <libconfig.h++>
 
 #include "hyperparameters.h"
 
 using namespace std;
-using namespace libconfig;
+//using namespace libconfig;
 
-Hyperparameters::Hyperparameters(const string& confFile) {
-    cout << "Loading config file: " << confFile << " ... ";
 
-    Config configFile;
-    configFile.readFile(confFile.c_str());
+//Hyperparameters::Hyperparameters(const string& confFile) {
+//    cout << "Loading config file: " << confFile << " ... ";
 
-    int tmp;
+//    Config configFile;
+//    configFile.readFile(confFile.c_str());
 
-    // Forest
-    maxDepth = configFile.lookup("Forest.maxDepth");
-    numRandomTests = configFile.lookup("Forest.numRandomTests");
-    counterThreshold = configFile.lookup("Forest.counterThreshold");
-    numTrees = configFile.lookup("Forest.numTrees");
+//    int tmp;
 
-    // LaRank
-    larankC = configFile.lookup("LaRank.larankC");
+//    // Forest
+//    maxDepth = configFile.lookup("Forest.maxDepth");
+//    numRandomTests = configFile.lookup("Forest.numRandomTests");
+//    counterThreshold = configFile.lookup("Forest.counterThreshold");
+//    numTrees = configFile.lookup("Forest.numTrees");
 
-    // Boosting
-    numBases = configFile.lookup("Boosting.numBases");
-    tmp = configFile.lookup("Boosting.weakLearner");
-    weakLearner = (WEAK_LEARNER) tmp;
+//    // LaRank
+//    larankC = configFile.lookup("LaRank.larankC");
 
-    // Online MCBoost
-    shrinkage = configFile.lookup("Boosting.shrinkage");
-    tmp = configFile.lookup("Boosting.lossFunction");
-    lossFunction = (LOSS_FUNCTION) tmp;
+//    // Boosting
+//    numBases = configFile.lookup("Boosting.numBases");
+//    tmp = configFile.lookup("Boosting.weakLearner");
+//    weakLearner = (WEAK_LEARNER) tmp;
 
-    // Online MCLPBoost
-    C = configFile.lookup("Boosting.C");
-    cacheSize = configFile.lookup("Boosting.cacheSize");
-    nuD = configFile.lookup("Boosting.nuD");
-    nuP = configFile.lookup("Boosting.nuP");
-    theta = configFile.lookup("Boosting.theta");
-    annealingRate = configFile.lookup("Boosting.annealingRate");
-    numIterations = configFile.lookup("Boosting.numIterations");
+//    // Online MCBoost
+//    shrinkage = configFile.lookup("Boosting.shrinkage");
+//    tmp = configFile.lookup("Boosting.lossFunction");
+//    lossFunction = (LOSS_FUNCTION) tmp;
 
-    // Experimenter
-    findTrainError = configFile.lookup("Experimenter.findTrainError");
-    numEpochs = configFile.lookup("Experimenter.numEpochs");
+//    // Online MCLPBoost
+//    C = configFile.lookup("Boosting.C");
+//    cacheSize = configFile.lookup("Boosting.cacheSize");
+//    nuD = configFile.lookup("Boosting.nuD");
+//    nuP = configFile.lookup("Boosting.nuP");
+//    theta = configFile.lookup("Boosting.theta");
+//    annealingRate = configFile.lookup("Boosting.annealingRate");
+//    numIterations = configFile.lookup("Boosting.numIterations");
 
-    // Data
-    trainData = (const char *) configFile.lookup("Data.trainData");
-    trainLabels = (const char *) configFile.lookup("Data.trainLabels");
-    testData = (const char *) configFile.lookup("Data.testData");
-    testLabels = (const char *) configFile.lookup("Data.testLabels");
+//    // Experimenter
+//    findTrainError = configFile.lookup("Experimenter.findTrainError");
+//    numEpochs = configFile.lookup("Experimenter.numEpochs");
 
-    // Output
-    savePath = (const char *) configFile.lookup("Output.savePath");
-    verbose = configFile.lookup("Output.verbose");
+//    // Data
+//    trainData = (const char *) configFile.lookup("Data.trainData");
+//    trainLabels = (const char *) configFile.lookup("Data.trainLabels");
+//    testData = (const char *) configFile.lookup("Data.testData");
+//    testLabels = (const char *) configFile.lookup("Data.testLabels");
 
-    cout << "Done." << endl;
-}
+//    // Output
+//    savePath = (const char *) configFile.lookup("Output.savePath");
+//    verbose = configFile.lookup("Output.verbose");
+
+//    cout << "Done." << endl;
+//}
 
 Hyperparameters::Hyperparameters() {
 
