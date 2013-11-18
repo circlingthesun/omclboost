@@ -110,6 +110,7 @@ vector<Result> trainAndTest(Classifier* model, DataSet& dataset_tr, DataSet& dat
     }
 
     // Write the results
+    /*
     string saveFile = hp.savePath + ".errors";
     ofstream file(saveFile.c_str(), ios::binary);
     if (!file) {
@@ -121,7 +122,7 @@ vector<Result> trainAndTest(Classifier* model, DataSet& dataset_tr, DataSet& dat
         file << testError[nEpoch] << endl;
     }
     file.close();
-
+    */
     return results;
 }
 
