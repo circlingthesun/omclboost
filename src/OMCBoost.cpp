@@ -15,7 +15,6 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-//#include <libconfig.h++>
 
 #include "data.h"
 #include "experimenter.h"
@@ -25,7 +24,6 @@
 #include "online_mclpboost.h"
 
 using namespace std;
-//using namespace libconfig;
 
 typedef enum {
     ORT, ORF, OMCBOOST, OMCLPBOOST, LARANK

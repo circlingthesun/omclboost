@@ -25,22 +25,6 @@
 
 using namespace std;
 
-// Random numbers
-/*
-inline unsigned int getDevRandom() {
-    ifstream devFile("/dev/urandom", ios::binary);
-    unsigned int outInt = 0;
-    char tempChar[sizeof(outInt)];
-
-    devFile.read(tempChar, sizeof(outInt));
-    outInt = atoi(tempChar);
-
-    devFile.close();
-
-    return outInt;
-}
-*/
-
 inline double randDouble() {
     static bool seedFlag = false;
 
