@@ -13,7 +13,7 @@ include_directories("${CONFIG_INCLUDE_DIR}")
 SET(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} ${EIGEN_DEFINITIONS}")
 
 add_library(omclboost STATIC ${SOURCES} ${LARANK_SOURCES})
-#add_executable(omclboost ${SOURCES} ${LARANK_SOURCES})
+add_executable(runomclboost ${SOURCES} ${LARANK_SOURCES})
 
 target_link_libraries(
     omclboost
