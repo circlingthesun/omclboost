@@ -3,6 +3,13 @@ Amir Saffari <amir@ymer.org>
 This is the OMCLPBoost package, implementing the Online Multi-Class LPBoost [1], Online Multi-Class Gradient Boost [1],
 and Online Random Forest algorithms [2].  Read the INSTALL file for build instructions.
 
+=======
+Notice:
+=======
+
+The instructions below is for the commandline tool which has been removed from this version.
+See OMCBoost.cpp to figure out how to use OMCLPBoost as a library.
+
 ======
 Usage:
 ======

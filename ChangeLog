@@ -1,3 +1,10 @@
+2015-06-27 Rickert Mulder
+	* Release 0.12
+	* Removed commandline tool
+	* Removed libconfig dependency
+	* Use Eigen 3 instead of 2
+	* Now uses cmake
+
 2010-05-06  Amir Saffari <amir@ymer.org>
 
 	* Release 0.11:
