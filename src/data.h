@@ -20,9 +20,9 @@
 #include <vector>
 #include <set>
 #include <string>
-#define EIGEN2_SUPPORT
+//#define EIGEN2_SUPPORT
 #include <Eigen/Core>
-#include <Eigen/Array>
+//#include <Eigen/Array>
 
 // DATA CLASSES
 class Sample {
